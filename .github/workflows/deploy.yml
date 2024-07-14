@@ -17,8 +17,6 @@ jobs:
           heroku_email: "francodimatteo6@hotmail.com"
           branch: "master"
           usedocker: true
-name: SonarCloud analysis
-
 on:
   push:
     branches: [ "master" ]
