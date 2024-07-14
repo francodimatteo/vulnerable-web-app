@@ -15,5 +15,5 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "appvulnerablefrancodimatteo" #Must be unique in Heroku
           heroku_email: "francodimatteo6@hotmail.com"
-          remote_branch: "master"
+          branch: "master"
           usedocker: true
