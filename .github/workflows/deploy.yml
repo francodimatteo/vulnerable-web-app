@@ -5,7 +5,7 @@ on:
     branches:
       - master
 jobs:
-  Analysis SONARCLOUD:
+  AnalysisSONARCLOUD:
     runs-on: ubuntu-latest
     steps:
       - name: Analyze with SonarCloud
