@@ -1,4 +1,4 @@
-name: Deploy Vulnerable Application                                  # workflow name TEST
+name: Deploy Vulnerable Application             # workflow name TEST
 
 on:
   push:
@@ -55,7 +55,6 @@ jobs:
       with:
         extra_args: --only-verified
         path: .
-
 
   gitleaks:
     name: Gitleaks
