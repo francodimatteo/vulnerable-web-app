@@ -1,3 +1,4 @@
+
 name: Deploy Vulnerable Application             # workflow name TEST
 
 on:
@@ -16,10 +17,20 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args:
+            -Dsonar.organization=francodimatteo
+            -Dsonar.projectKey=francodimatteo_vulnerable-web-app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
+        
 
+
+
+
+          
   check-for-secrets:
     runs-on: 'ubuntu-latest'
     steps:
