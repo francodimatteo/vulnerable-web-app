@@ -1,5 +1,5 @@
 
-name: Deploy Vulnerable Application             # workflow name TEST
+name: Deploy Vulnerable Application             # workflow name 
 
 on:
   push:
@@ -7,6 +7,9 @@ on:
       - master
   pull_request:
     types: [opened, synchronize, reopened]
+
+#DESPLIEGUE DE SAST
+#COMIENZA SONARQUBE
 jobs:
   sonarcloud:
     name: sonarcloud
@@ -25,11 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
-        
-
-
-
-
+    #CONTINUA DETECCIÓN DE SECRETOS CON 1) YELP 2) Trufflehog 3) Gitleaks
           
   check-for-secrets:
     runs-on: 'ubuntu-latest'
