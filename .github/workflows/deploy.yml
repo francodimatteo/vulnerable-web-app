@@ -188,6 +188,7 @@ jobs:
 
 #REALIZO DEPLOY DE LA IMAGEN CON HEROKU
   deploy-heroku:
+    needs: [gitleaks,trivy]
     name: Deploy Heroku
     runs-on: ubuntu-latest
     steps:
