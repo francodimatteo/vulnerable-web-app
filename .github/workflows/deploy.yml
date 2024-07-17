@@ -220,3 +220,4 @@ jobs:
           target: 'https://appvulnerablefrancodimatteo-ff2195a0688c.herokuapp.com/'
           token: ${{ secrets.GITHUB_TOKEN }}
           cmd_options: '-a'
+          allow_issue_writing: true
