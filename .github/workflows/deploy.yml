@@ -8,8 +8,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-#DESPLIEGUE DE SAST
-#COMIENZA SONARQUBE
+#COMIENZO CON ESCANEOS
+#PRIMERO SAST
 jobs:
   sonarcloud:
     name: sonarcloud
@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
-    #CONTINUA DETECCIÓN DE SECRETOS CON 1) YELP como gitaction y YELP instalado con python 2) Trufflehog 3) Gitleaks
+  #CONTINUA DETECCIÓN DE SECRETOS
           
   check-for-secretsYELP:
     runs-on: 'ubuntu-latest'
@@ -42,7 +42,7 @@ jobs:
         with:
           commit_message: "build(detect-secrets): Commit the newly-generated .secrets.baseline file"
   detect-secrets_YELP_PY:
-    name: Detect Secrets
+    name: detect-secrets_YELP_PY
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -57,17 +57,16 @@ jobs:
       - name: Run detect-secrets scan 
         run: |
           detect-secrets scan --all-files > ./secrets-report.txt
-    
       - name: Configure Git
         run: |
           git config --local user.email "francodimatteo6@hotmail.com"
           git config --local user.name "GitHub Action"
-
       - name: Commit and push changes
         run: |
           git add ./secrets-report.txt
           git commit -m "Add detect-secrets report"
           git push origin HEAD:${{ github.ref }}
+          
   TruffleHog:
     runs-on: ubuntu-latest
     steps:
@@ -80,6 +79,7 @@ jobs:
       with:
         extra_args: --only-verified
         path: .
+        
   gitleaks:
     permissions:
       # required for all workflows
@@ -87,7 +87,6 @@ jobs:
       # only required for workflows in private repositories
       actions: read
       contents: read
-   
     name: 🐛 Gitleaks Secret Scan
     runs-on: ubuntu-latest
     steps:
