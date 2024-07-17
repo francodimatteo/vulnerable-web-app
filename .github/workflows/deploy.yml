@@ -185,3 +185,19 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
+
+#REALIZO DEPLOY DE LA IMAGEN CON HEROKU
+  deploy-heroku:
+    name: Deploy Heroku
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "appvulnerablefrancodimatteo" #Must be unique in Heroku
+          heroku_email: "francodimatteo6@hotmail.com"
+          branch: "master"
+          usedocker: true
+
+
