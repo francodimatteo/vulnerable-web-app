@@ -55,14 +55,34 @@ jobs:
         extra_args: --only-verified
         path: .
 
-  gitleaks:
-    name: Gitleaks
+  jobs:
+ gitleaks:
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+   
+    name: 🐛 Gitleaks Secret Scan
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2.3.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-         
+        with:
+          fetch-depth: 0
+      - name: Install Gitleaks
+        run: |
+          wget https://github.com/zricethezav/gitleaks/releases/download/v8.13.0/gitleaks_8.13.0_linux_x64.tar.gz
+          tar -xzf gitleaks_8.13.0_linux_x64.tar.gz
+          sudo install gitleaks /usr/bin
+      - name: Run Gitleaks and generate SARIF
+        run: |
+          gitleaks detect --report-format sarif --report-path gitleaks.report
+        continue-on-error: true
+      - name: Echo report
+        run: cat gitleaks.report
+      - name: Upload SARIF file for GitHub Advanced Security Dashboard
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: gitleaks.report
