@@ -26,9 +26,13 @@ jobs:
           mkdir -p reports
           mv secrets-report.txt reports/
 
+      - name: Configure Git
+        run: |
+          git config --local user.email "francodimatteo6@hotmail.com"
+          git config --local user.name "GitHub Action"
+
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Add secrets detection report
-          repository: ${{ github.repository }}
-          branch: ${{ github.ref }}
+        run: |
+          git add reports/secrets-report.txt
+          git commit -m "Add detect-secrets report"
+          git push origin HEAD:${{ github.ref }}
