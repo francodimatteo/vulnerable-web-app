@@ -18,7 +18,7 @@ jobs:
           python -m pip install detect-secrets
       - name: Run detect-secrets scan 
         run: |
-          detect-secrets scan --all-files > /tmp/secrets-report.txt
+          detect-secrets scan --all-files > ./secrets-report.txt
     
       - name: Configure Git
         run: |
@@ -27,6 +27,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add /tmp/secrets-report.txt
+          git add ./secrets-report.txt
           git commit -m "Add detect-secrets report"
           git push origin HEAD:${{ github.ref }}
