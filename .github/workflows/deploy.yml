@@ -54,9 +54,7 @@ jobs:
       with:
         extra_args: --only-verified
         path: .
-
-  jobs:
- gitleaks:
+  gitleaks:
     permissions:
       # required for all workflows
       security-events: write
