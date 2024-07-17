@@ -14,7 +14,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Selecciona la versión de Python adecuada
+          python-version: '3.x'  
 
       - name: Install detect-secrets
         run: |
@@ -23,3 +23,14 @@ jobs:
       - name: Run detect-secrets scan
         run: |
           detect-secrets scan --all-files
+      - name: Save report to repository
+        run: |
+          mkdir -p reports
+          mv secrets-report.txt reports/
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Add detect-secrets report
+          repository: ${{ github.repository }}
+          branch: ${{ github.ref }}
