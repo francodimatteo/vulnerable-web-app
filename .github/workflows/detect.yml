@@ -6,26 +6,20 @@ jobs:
   detect-secrets:
     name: Detect Secrets
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build the Docker image
-        run: docker build -t detect-secrets-image .
-
-      - name: Run detect-secrets scan
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  
+      - name: Install detect-secrets
         run: |
-          docker run --rm -v $(pwd):/code detect-secrets-image detect-secrets scan --all-files > secrets-report.txt
-
-      - name: Save report to repository
+          python -m pip install detect-secrets
+      - name: Run detect-secrets scan 
         run: |
-          mkdir -p reports
-          mv secrets-report.txt reports/
-
+          detect-secrets scan --all-files > /tmp/secrets-report.txt
+    
       - name: Configure Git
         run: |
           git config --local user.email "francodimatteo6@hotmail.com"
@@ -33,6 +27,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add reports/secrets-report.txt
+          git add /tmp/secrets-report.txt
           git commit -m "Add detect-secrets report"
           git push origin HEAD:${{ github.ref }}
