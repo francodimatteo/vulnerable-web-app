@@ -203,6 +203,7 @@ jobs:
 
 #REALIZO ANÁLISIS DAST
   zap_scan:
+    needs: [deploy-heroku]
     runs-on: ubuntu-latest
     name: Scan the webapplication
     steps:
