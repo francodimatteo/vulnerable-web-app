@@ -1,9 +1,6 @@
 name: Detect Secrets Scan
 
-on:
-  push:
-    paths:
-      - '**/*.yaml'  # Disparar el flujo de trabajo en cambios de archivos YAML
+on: [push, pull_request]
 
 jobs:
   detect-secrets:
