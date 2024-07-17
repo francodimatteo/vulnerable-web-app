@@ -28,9 +28,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         
-    #CONTINUA DETECCIÓN DE SECRETOS CON 1) YELP 2) Trufflehog 3) Gitleaks
+    #CONTINUA DETECCIÓN DE SECRETOS CON 1) YELP como gitaction y YELP instalado con python 2) Trufflehog 3) Gitleaks
           
-  check-for-secrets:
+  check-for-secretsYELP:
     runs-on: 'ubuntu-latest'
     steps:
       - name: Checkout
@@ -41,7 +41,33 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "build(detect-secrets): Commit the newly-generated .secrets.baseline file"
+  detect-secrets_YELP_PY:
+    name: Detect Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  
+      - name: Install detect-secrets
+        run: |
+          python -m pip install detect-secrets
+      - name: Run detect-secrets scan 
+        run: |
+          detect-secrets scan --all-files > ./secrets-report.txt
+    
+      - name: Configure Git
+        run: |
+          git config --local user.email "francodimatteo6@hotmail.com"
+          git config --local user.name "GitHub Action"
 
+      - name: Commit and push changes
+        run: |
+          git add ./secrets-report.txt
+          git commit -m "Add detect-secrets report"
+          git push origin HEAD:${{ github.ref }}
   TruffleHog:
     runs-on: ubuntu-latest
     steps:
