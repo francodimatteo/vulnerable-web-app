@@ -203,7 +203,9 @@ jobs:
 
 #REALIZO ANÁLISIS DAST
   zap_scan:
-    needs: [deploy-heroku]
+#   needs: [deploy-heroku]
+    permissions:
+      security-events: write
     runs-on: ubuntu-latest
     name: Scan OWASP ZAP
     steps:
