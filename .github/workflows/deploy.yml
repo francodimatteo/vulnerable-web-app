@@ -105,7 +105,7 @@ jobs:
           detect-secrets scan --all-files > ./secrets-report.txt
       - name: Configure Git
         run: |
-          git config --local user.email "francodimatteo6@hotmail.com"
+          git config --local user.email "
           git config --local user.name "GitHub Action"
       - name: Commit and push changes
         run: |
@@ -197,7 +197,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "appvulnerablefrancodimatteo" #Must be unique in Heroku
-          heroku_email: "francodimatteo6@hotmail.com"
+          heroku_email: "
           branch: "master"
           usedocker: true
 
